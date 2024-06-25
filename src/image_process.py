@@ -1,7 +1,7 @@
-import json
 import UnityPy
 from PIL import Image
 from pathlib import Path
+import proto.octodb_pb2 as octop
 import src.rich_console as console
 
 
@@ -19,23 +19,21 @@ def unpack_to_image(asset_bytes: bytes, dest_path: str):
                 console.error(f"Failed to convert '{data.name}' to image.")
 
 
-def resize_image(inputs: str, output: str, size: tuple = (0, 0)):
+def resize_image(input: str, output: str, size: tuple = (0, 0)):
     try:
-        original_image = Image.open(inputs)
+        original_image = Image.open(input)
     except FileNotFoundError:
-        console.error(f"No such file or directory: '{inputs}'")
+        console.error(f"No such file or directory: '{input}'")
         return
     resized_image = original_image.resize(size)
     resized_image.save(output)
-    console.succeed(f"Img '{inputs}' has been successfully scaled")
+    console.succeed(f"Img '{input}' has been successfully scaled")
 
 
-def image_scale(source: str, dest: str):
+def image_scale(database: octop.Database, source: str, dest: str):
     Path(dest).mkdir(exist_ok=True)
-    with open("cache/OctoUpdate.json") as fp:
-        update_database_dict = json.load(fp)
-    for asset in update_database_dict["assetBundleList"]:
-        name = asset["name"]
+    for item in database.assetBundleList:
+        name = item.name
         if (name.startswith("img_general_cidol-") and name.endswith("-full")) or name.startswith(
             "img_adv_still_"
         ):
@@ -46,5 +44,5 @@ def image_scale(source: str, dest: str):
             size = (1024, 768)
         else:
             continue
-        file = f"{source}/Texture2D/{name}.png"
-        resize_image(inputs=file, output=f"{dest}/{name}.png", size=size)
+        input_path = f"{source}/Texture2D/{name}.png"
+        resize_image(input=input_path, output=f"{dest}/{name}.png", size=size)

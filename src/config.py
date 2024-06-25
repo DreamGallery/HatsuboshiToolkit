@@ -22,7 +22,7 @@ MAX_RETRIES = config.getint("Download settings", "MAX_RETRIES")
 
 # Path settings
 ASSET_PATH = config.get("Path settings", "ASSET_PATH")
-RESOURCE_PATH = config.get("Path settings", "ASSET_PATH")
+RESOURCE_PATH = config.get("Path settings", "RESOURCE_PATH")
 UPDATE_PATH = config.get("Path settings", "UPDATE_PATH")
 
 # Unity settings
