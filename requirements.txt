@@ -1,0 +1,5 @@
+pycryptodome
+Requests
+rich
+click
+protobuf==4.25.3
