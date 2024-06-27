@@ -40,9 +40,9 @@ def once(reset: bool, init_download: bool, download_type: str):
         after_download(revision, database)
 
 
-def loop(reset: bool, init_download: bool, download_type: str):
+def loop(reset: bool, init_download: bool, download_type: str, loop_interval: int = 600):
     once(reset, init_download, download_type)
-    time.sleep(60)
+    time.sleep(loop_interval)
     while True:
         octo_manager = DataManger()
         octo_manager.start_db_update()
@@ -55,7 +55,7 @@ def loop(reset: bool, init_download: bool, download_type: str):
                 download_type,
             )
             after_download(revision, database)
-        time.sleep(60)
+        time.sleep(loop_interval)
 
 
 @click.command()
@@ -63,31 +63,43 @@ def loop(reset: bool, init_download: bool, download_type: str):
     "--mode",
     default="once",
     type=click.Choice(["once", "loop"]),
-    help="Script mode, once for single run and loop for continuously check for updates",
+    help="Script mode, once for single run and loop for continuously check for updates.",
 )
 @click.option(
     "--reset",
     default=False,
     type=bool,
-    help="Used to reset local database",
+    help="Used to reset local database.",
 )
 @click.option(
     "--init_download",
     default=False,
     type=bool,
-    help="Whether to download the full resource on first use",
+    help="Whether to download the full resource on first use.",
 )
 @click.option(
     "--download_type",
     default="ALL",
     type=click.Choice(["ALL", "ab", "resource"]),
-    help="Specify the type to download, ab for assetBundle, resource for resource and ALL for both",
+    help="Specify the type to download, ab for assetBundle, resource for resource and ALL for both.",
 )
-def main(mode: str, reset: bool = False, init_download: bool = False, download_type: str = "ALL"):
+@click.option(
+    "--loop_interval",
+    default=600,
+    type=int,
+    help="The interval between each check, in seconds.",
+)
+def main(
+    mode: str,
+    reset: bool = False,
+    init_download: bool = False,
+    download_type: str = "ALL",
+    loop_interval: int = 600,
+):
     if mode == "once":
         once(reset, init_download, download_type)
     elif mode == "loop":
-        loop(reset, init_download, download_type)
+        loop(reset, init_download, download_type, loop_interval)
 
 
 if __name__ == "__main__":
