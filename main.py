@@ -42,8 +42,8 @@ def once(reset: bool, init_download: bool, download_type: str):
 
 def loop(reset: bool, init_download: bool, download_type: str, loop_interval: int = 600):
     once(reset, init_download, download_type)
-    time.sleep(loop_interval)
     while True:
+        time.sleep(loop_interval)
         octo_manager = DataManger()
         octo_manager.start_db_update()
         revision = octo_manager.revision
@@ -55,7 +55,6 @@ def loop(reset: bool, init_download: bool, download_type: str, loop_interval: in
                 download_type,
             )
             after_download(revision, database)
-        time.sleep(loop_interval)
 
 
 @click.command()

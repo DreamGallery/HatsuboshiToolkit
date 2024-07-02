@@ -30,9 +30,7 @@ def send_request(
     return response
 
 
-def request_update(
-    db_revision: int = 0,
-) -> requests.Response | None:
+def request_update(db_revision: int = 0) -> requests.Response | None:
     aes_api_list_format = f"v2/pub/a/{APP_ID}/v/{VERSION}/list"
     headers = {
         "Accept": f"application/x-protobuf,x-octo-app/{APP_ID}",
