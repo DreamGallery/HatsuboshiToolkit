@@ -85,7 +85,7 @@ class DataManger:
             return
 
         if db.revision == self.revision and not reset:
-            console.info(f"The database\[revision={self.revision}] is already up to date")
+            console.info(f"The database\\[revision={self.revision}] is already up to date")
             self._latest = True
             return
 
@@ -95,10 +95,10 @@ class DataManger:
             with open(self._local_db_path, "w", encoding="utf8") as fp:
                 db_dict = MessageToDict(db, use_integers_for_enums=True, including_default_value_fields=True)
                 json.dump(db_dict, fp, ensure_ascii=False, indent=2)
-            console.info(f"Got the latest database\[revision={self.revision}] from API")
+            console.info(f"Got the latest database\\[revision={self.revision}] from API")
             return
 
-        console.info(f"Database update available\[from revision {self.revision} to {db.revision}]")
+        console.info(f"Database update available\\[from revision {self.revision} to {db.revision}]")
         self.revision = db.revision
         with open(self._local_diff_path, "w", encoding="utf8") as fp:
             db_dict = MessageToDict(db, use_integers_for_enums=True, including_default_value_fields=True)
