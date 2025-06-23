@@ -1,6 +1,6 @@
 # HatsuboshiToolkit/Gakumas(Gakuen IdolMaster)
 
-## First things first
+## Important Notice
 
 ***As a courtesy to other fans, please refrain from spoiling unreleased contents if any are found after decrypting.***
 
