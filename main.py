@@ -1,32 +1,16 @@
 import time
 import click
-import shutil
 import UnityPy.config
-import proto.octodb_pb2 as octop
-from src.config import config
 from src.octo_manager import DataManger
-from src.file_operation import file_operate
-from src.resource_download import download_resource
-from src.image_process import image_scale
-from src.config import UPDATE_PATH, UNITY_VERSION, UPDATE_FLAG
+from src.resource_download import download_resource, ensure_vgmstream
+from src.config import UNITY_VERSION
+import src.rich_console as console
 
 
 UnityPy.config.FALLBACK_UNITY_VERSION = UNITY_VERSION
 
 
-def after_download(revision: int, database: octop.Database):
-    image_scale(database, f"{UPDATE_PATH}/{revision}/image", f"{UPDATE_PATH}/{revision}/stretch")
-    if UPDATE_FLAG:
-        file_operate("copy", f"{UPDATE_PATH}/{revision}", "cache", dirs_exist_ok=True)
-    else:
-        file_operate("move", f"{UPDATE_PATH}/{revision}", "cache")
-        shutil.rmtree(f"{UPDATE_PATH}/{revision}", ignore_errors=True)
-        config.set("Download settings", "UPDATE_FLAG", "True")
-        with open("config.ini", "w", encoding="utf8") as config_file:
-            config.write(config_file)
-
-
-def once(reset: bool, init_download: bool, download_type: str):
+def once(reset: bool, init_download: bool):
     octo_manager = DataManger()
     octo_manager.start_db_update(reset)
     revision = octo_manager.revision
@@ -35,13 +19,11 @@ def once(reset: bool, init_download: bool, download_type: str):
         download_resource(
             revision,
             database,
-            download_type,
         )
-        after_download(revision, database)
 
 
-def loop(reset: bool, init_download: bool, download_type: str, loop_interval: int = 600):
-    once(reset, init_download, download_type)
+def loop(reset: bool, init_download: bool, loop_interval: int = 600):
+    once(reset, init_download)
     while True:
         time.sleep(loop_interval)
         octo_manager = DataManger()
@@ -51,10 +33,8 @@ def loop(reset: bool, init_download: bool, download_type: str, loop_interval: in
         if database:
             download_resource(
                 revision,
-                database,
-                download_type,
+                database
             )
-            after_download(revision, database)
 
 
 @click.command()
@@ -77,12 +57,6 @@ def loop(reset: bool, init_download: bool, download_type: str, loop_interval: in
     help="Whether to download the full resource on first use.",
 )
 @click.option(
-    "--download_type",
-    default="ALL",
-    type=click.Choice(["ALL", "ab", "resource"]),
-    help="Specify the type to download, ab for assetBundle, resource for resource and ALL for both.",
-)
-@click.option(
     "--loop_interval",
     default=600,
     type=int,
@@ -95,10 +69,14 @@ def main(
     download_type: str = "ALL",
     loop_interval: int = 600,
 ):
+    if not ensure_vgmstream():
+        console.error("vgmstream initialization failed, program exit.")
+        return
+    
     if mode == "once":
-        once(reset, init_download, download_type)
+        once(reset, init_download)
     elif mode == "loop":
-        loop(reset, init_download, download_type, loop_interval)
+        loop(reset, init_download, loop_interval)
 
 
 if __name__ == "__main__":
