@@ -1,7 +1,7 @@
 # HatsuboshiToolkit/Gakumas(Gakuen IdolMaster)
 A modified fork for `学園アイドルマスター` from [MalitsPlus/HoshimiToolkit](https://github.com/MalitsPlus/HoshimiToolkit) `IDOLY PRIDE` components.
 
-## First things first
+## Important Notice
 
 ***As a courtesy to other fans, please refrain from spoiling unreleased contents if any are found after decrypting.***
 
