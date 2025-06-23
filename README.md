@@ -1,35 +1,57 @@
-# HatsuboshiToolkit/Gakumas(Gakuen IdolMaster)
+# HatsuboshiToolkit - Gakumas Resource Downloader
 
-## First things first
+A comprehensive toolkit for downloading and managing resources from Gakuen IdolMaster (Gakumas), with automatic Cloudflare R2 synchronization support.
+
+## Important Notice
 
 ***As a courtesy to other fans, please refrain from spoiling unreleased contents if any are found after decrypting.***
 
-## How to use (Get octo database from API)
+## Installation
 
-1. Install the requirements at the root folder
-    ```
-    pip install -r requirements.txt
-    ```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/DreamGallery/HatsuboshiToolkit
+   cd HatsuboshiToolkit
+   git checkout resource
+   ```
 
-2. Read the comments in `config.ini` and edit the args according to your needs.  
-   
-3. Run `main.py --help` for usage.
-    ```
-    Usage: main.py [OPTIONS]
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-    Options:
-    --mode [once|loop]                  Script mode, once for single run and loop
-                                        for continuously check for updates.
-    --reset BOOLEAN                     Used to reset local database.
-    --init_download BOOLEAN             Whether to download the full resource on
-                                        first use.
-    --download_type [ALL|ab|resource]   Specify the type to download, ab for
-                                        assetBundle, resource for resource and ALL
-                                        for both.
-    --loop_interval INTEGER             The interval between each check, in seconds
-    --help                              Show this message and exit.
-    ```
-    ```
-    python main.py --mode [once|loop]
-    ```
-    The update data will make a copy in the folder named with database revision under `cache/update` if you set `UPDATE_FLAG` to `True` in `config.ini`, else it will only merge to default directory.
+3. **Configure settings**
+   - Edit `config.ini` with your API credentials and preferences
+   - Set up Cloudflare R2 credentials if you want to use sync functionality
+
+## Configuration
+Edit `config.ini`:
+
+### Cloudflare R2 Setup (Optional)
+
+To enable automatic sync to Cloudflare R2, configure these settings:
+
+```ini
+[R2 settings]
+R2_ACCOUNT_ID = your_cloudflare_account_id
+R2_ACCESS_KEY_ID = your_r2_access_key_id
+R2_SECRET_ACCESS_KEY = your_r2_secret_access_key
+R2_BUCKET_NAME = your_bucket_name
+R2_ENDPOINT_URL = https://your_account_id.r2.cloudflarestorage.com
+ENABLE_R2_SYNC = true
+```
+
+## Usage
+
+```bash
+python main.py [OPTIONS]
+
+Options:
+  --mode [once|loop]      Script mode: 'once' for single run, 'loop' for continuous monitoring
+  --reset BOOLEAN         Reset local database
+  --init_download BOOLEAN Download full resource on first use
+  --loop_interval INTEGER Interval between checks in seconds (default: 600)
+  --sync_only BOOLEAN     Only sync existing cache to R2 without downloading
+  --force_upload BOOLEAN  Force upload all files to R2.
+  --help                  Show help message
+```

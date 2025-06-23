@@ -25,3 +25,11 @@ DOWNLOAD_PATH = config.get("Path settings", "DOWNLOAD_PATH")
 # Unity settings
 UNITY_SIGNATURE = bytes(config.get("Unity settings", "UNITY_SIGNATURE"), encoding="utf8")
 UNITY_VERSION = config.get("Unity settings", "UNITY_VERSION")
+
+# R2 settings
+R2_ACCOUNT_ID = config.get("R2 settings", "R2_ACCOUNT_ID")
+R2_ACCESS_KEY_ID = config.get("R2 settings", "R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = config.get("R2 settings", "R2_SECRET_ACCESS_KEY")
+R2_BUCKET_NAME = config.get("R2 settings", "R2_BUCKET_NAME")
+R2_ENDPOINT_URL = config.get("R2 settings", "R2_ENDPOINT_URL")
+ENABLE_R2_SYNC = config.getboolean("R2 settings", "ENABLE_R2_SYNC")

@@ -100,14 +100,12 @@ def one_task(item: dict, _type: str, url_format: str, dest_path: str):
         lock.release()
 
 
-def download_resource(revision: int, database: octop.Database):
+def download_resource(database: octop.Database):
     global _asset_count
     global _resource_count
     global _current_count
 
     database = filter_database(database)
-    with open(f"{DOWNLOAD_PATH}/OctoDiff_{revision}.json", "w", encoding="utf8") as f:
-        f.write(json.dumps(MessageToDict(database), ensure_ascii=False, indent=2))
 
     urlFormat = database.urlFormat
 
