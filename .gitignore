@@ -131,6 +131,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# MAC OS
+.DS_Store
+
 # Costum files
 *.db
 cache/*
