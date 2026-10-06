@@ -26,7 +26,7 @@ def update_octo_database(raw_cache: bytes):
     """Store whole database in OctoManifest.json and the updated part in OctoDiff.json
     """
     new_database = MessageToDict(
-        decrypt_octo_database(raw_cache), use_integers_for_enums=True, including_default_value_fields=True
+        decrypt_octo_database(raw_cache), use_integers_for_enums=True, always_print_fields_with_no_presence=True
     )
     update_flag = 0
     if Path("cache/OctoManifest.json").exists():
