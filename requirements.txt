@@ -4,4 +4,4 @@ Requests
 rich
 click
 UnityPy
-protobuf==4.25.8
+protobuf==6.33.6
