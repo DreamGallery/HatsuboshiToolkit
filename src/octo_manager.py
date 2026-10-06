@@ -93,7 +93,7 @@ class DataManger:
         if self.revision == 0 or reset:
             self.revision = db.revision
             with open(self._local_db_path, "w", encoding="utf8") as fp:
-                db_dict = MessageToDict(db, use_integers_for_enums=True, including_default_value_fields=True)
+                db_dict = MessageToDict(db, use_integers_for_enums=True, always_print_fields_with_no_presence=True)
                 json.dump(db_dict, fp, ensure_ascii=False, indent=2)
             console.info(f"Got the latest database\\[revision={self.revision}] from API")
             return
@@ -101,7 +101,7 @@ class DataManger:
         console.info(f"Database update available\\[from revision {self.revision} to {db.revision}]")
         self.revision = db.revision
         with open(self._local_diff_path, "w", encoding="utf8") as fp:
-            db_dict = MessageToDict(db, use_integers_for_enums=True, including_default_value_fields=True)
+            db_dict = MessageToDict(db, use_integers_for_enums=True, always_print_fields_with_no_presence=True)
             json.dump(db_dict, fp, ensure_ascii=False, indent=2)
         self.start_db_update(reset=True)
 

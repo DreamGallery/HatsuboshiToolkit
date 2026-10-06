@@ -139,3 +139,25 @@ dmypy.json
 cache/*
 !cache/
 !cache/.gitkeep
+
+
+# Local validation and container build files
+tests/
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+compose*.yml
+compose*.yaml
+.dockerignore
+/docker/
+/local/
+/.github/workflows/octo.yml
+/.github/workflows/masterdb.yml
+
+# Private credentials and environment overrides
+.env.*
+account.json
+credentials/
+*credentials*.json
+*.local.json
+*.local.yaml
