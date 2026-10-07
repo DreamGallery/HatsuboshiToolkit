@@ -42,7 +42,7 @@ def one_task(item: dict, _type: str, url_format: str, dest_path: str):
                 asset_bytes = crypt_by_string(obj, item.name, 0, 0, 256)
             else:
                 asset_bytes = obj
-            file_store(asset_bytes, item.name, dest_path, _type)
+            file_store(asset_bytes, item.name, dest_path)
             if asset_bytes[0:5] != UNITY_SIGNATURE:
                 console.error(f"'{item.name}' '{item.md5}' is not a unity asset.")
                 raise
@@ -61,7 +61,7 @@ def one_task(item: dict, _type: str, url_format: str, dest_path: str):
             console.error(sys.exc_info())
             lock.release()
     elif _type == "Resource":
-        file_store(obj, item.name, dest_path, _type)
+        file_store(obj, item.name, dest_path)
         lock.acquire()
         _current_count += 1
         console.succeed(

@@ -28,12 +28,3 @@ UPDATE_PATH = config.get("Path settings", "UPDATE_PATH")
 # Unity settings
 UNITY_SIGNATURE = bytes(config.get("Unity settings", "UNITY_SIGNATURE"), encoding="utf8")
 UNITY_VERSION = config.get("Unity settings", "UNITY_VERSION")
-
-# Asset/Resource classify settings
-ASSET_CLASSIFY = {
-    key: config["Asset classify settings"].get(key) for key in config["Asset classify settings"]
-}
-RESOURCE_CLASSIFY = {
-    key: config["Resource classify settings"].get(key) for key in config["Resource classify settings"]
-}
-CLASSIFY = {"AssetBundle": ASSET_CLASSIFY, "Resource": RESOURCE_CLASSIFY}

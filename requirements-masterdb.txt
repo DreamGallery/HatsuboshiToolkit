@@ -1,0 +1,7 @@
+# Independent from the optional Unity/Octo resource downloader.
+grpcio>=1.70,<2
+protobuf>=6.33.6,<8
+pycryptodome>=3.20,<4
+requests>=2.32,<3
+PyYAML>=6,<7
+sqlcipher3==0.6.2

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hatsuboshi-masterdb"
+version = "0.2.0"
+description = "Atomic game API masterdb snapshots for HatsuboshiToolkit"
+requires-python = ">=3.10"
+license = {text = "AGPL-3.0-only"}
+dynamic = ["dependencies"]
+
+[project.scripts]
+hatsuboshi-masterdb = "hatsuboshi_master.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["hatsuboshi_master"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements-masterdb.txt"]}
+
+[tool.setuptools.package-data]
+hatsuboshi_master = ["proto/*.proto", "proto/*.pb", "proto/*.json", "LICENSE", "NOTICE"]

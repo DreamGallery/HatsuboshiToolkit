@@ -1,0 +1,9 @@
+The hatsuboshi_master package, its schema export scripts and protobuf definitions
+are distributed under GNU AGPL version 3 (see LICENSE in this directory).
+The qua protocol implementation and schema export workflow are based on:
+  https://github.com/vertesan/campus
+  commit a7f5b047b47594761c9623117f4f8aa159ba38c6, AGPL-3.0
+Current schemas were exported from the user's authorized Google Play game 3.4.1
+installation using Il2CppDumper v6.7.46 and campus's analyser. See proto/provenance.json.
+This notice does not relicense the pre-existing Octo/resource tools in the repository.
+Game assets and game data remain the property of their respective rights holders.

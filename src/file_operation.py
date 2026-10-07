@@ -1,25 +1,15 @@
 import os
 import shutil
 from pathlib import Path
-from src.config import CLASSIFY
 
 
-def file_store(data_bytes: bytes, file_name: str, root_path: str, _type: str):
-    if _type == "AssetBundle" and "shader" in file_name:
-        sub_path = CLASSIFY[_type]["shader"]
-    else:
-        sub_path = CLASSIFY[_type]["other"]
-        for index, split_part in enumerate(file_name.split("_")):
-            if index > 1:
-                break
-            if split_part in CLASSIFY[_type].keys():
-                sub_path = CLASSIFY[_type][split_part]
-                break
-
-    store_path = f"{root_path}/{sub_path}"
-    Path(store_path).mkdir(parents=True, exist_ok=True)
-    with open(f"{store_path}/{file_name}", "wb") as fp:
-        fp.write(data_bytes)
+def file_store(data_bytes: bytes, file_name: str, root_path: str):
+    """Keep original resource names in the caller's AssetBundle/Resource directory."""
+    if not file_name or Path(file_name).name != file_name or file_name in (".", "..") or "\\" in file_name:
+        raise ValueError("Resource name must be a single filename")
+    directory = Path(root_path)
+    directory.mkdir(parents=True, exist_ok=True)
+    (directory / file_name).write_bytes(data_bytes)
 
 
 def file_operate(mode: str, source_path: str, dest_path: str, **kwargs):

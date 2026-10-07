@@ -1,0 +1,37 @@
+{
+  "game_version": "3.4.1",
+  "platform": "Android arm64",
+  "source": "Google Play APK extracted from authorized emulator",
+  "campus_commit": "a7f5b047b47594761c9623117f4f8aa159ba38c6",
+  "il2cpp_dumper": "v6.7.46",
+  "new_master_messages": [
+    "AdvConditionBranch",
+    "AdvConditionBranchList",
+    "AdvOverrideCostume",
+    "AdvOverrideCostumeList",
+    "CharacterLookEffector",
+    "CharacterLookEffectorList",
+    "DearnessLevelBgm",
+    "DearnessLevelBgmList",
+    "LiveAdditionalAsset",
+    "LiveAdditionalAssetConditionSet",
+    "LiveAdditionalAssetConditionSetList",
+    "LiveAdditionalAssetList",
+    "MediaMovieLabel",
+    "MediaMovieLabelList",
+    "ProduceCardSkin",
+    "ProduceCardSkinList",
+    "ProduceCharacterUnitOverrideLiveCostume",
+    "ProduceCharacterUnitOverrideLiveCostumeList"
+  ],
+  "removed_master_messages": [
+    "PhotoLookEffectorCharacter",
+    "PhotoLookEffectorCharacterList"
+  ],
+  "input_sha256": {
+    "libil2cpp.so": "90a0b71d96691e41641690e57983d600c3ef1301b971d114d6a1658591e9ea17",
+    "global-metadata.dat": "aaff4137984cbfbc58aeabe48c0d3abf4d586923c2355e43c5908dd890ca29dc",
+    "global-metadata-decrypted.dat": "4370094ac9c8949eeb8a2b57c17424fe85d0e7a29ab2de0a71510b2458740a38",
+    "dumper/dump.cs": "b298f13c9838aadf42bb545a8a0846b1204af5b600f272336aa8ef24b4669297"
+  }
+}
