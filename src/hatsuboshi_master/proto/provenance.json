@@ -1,37 +1,14 @@
 {
-  "game_version": "3.4.1",
+  "game_version": "3.5.0",
+  "campus_commit": "a7f5b047b47594761c9623117f4f8aa159ba38c6",
+  "dump_sha256": "7c9aabe93396dc5a7a9bcc256e73117e6c7d4fabc7072a0f49948b7b06fb4335",
   "platform": "Android arm64",
   "source": "Google Play APK extracted from authorized emulator",
-  "campus_commit": "a7f5b047b47594761c9623117f4f8aa159ba38c6",
   "il2cpp_dumper": "v6.7.46",
-  "new_master_messages": [
-    "AdvConditionBranch",
-    "AdvConditionBranchList",
-    "AdvOverrideCostume",
-    "AdvOverrideCostumeList",
-    "CharacterLookEffector",
-    "CharacterLookEffectorList",
-    "DearnessLevelBgm",
-    "DearnessLevelBgmList",
-    "LiveAdditionalAsset",
-    "LiveAdditionalAssetConditionSet",
-    "LiveAdditionalAssetConditionSetList",
-    "LiveAdditionalAssetList",
-    "MediaMovieLabel",
-    "MediaMovieLabelList",
-    "ProduceCardSkin",
-    "ProduceCardSkinList",
-    "ProduceCharacterUnitOverrideLiveCostume",
-    "ProduceCharacterUnitOverrideLiveCostumeList"
-  ],
-  "removed_master_messages": [
-    "PhotoLookEffectorCharacter",
-    "PhotoLookEffectorCharacterList"
-  ],
   "input_sha256": {
-    "libil2cpp.so": "90a0b71d96691e41641690e57983d600c3ef1301b971d114d6a1658591e9ea17",
-    "global-metadata.dat": "aaff4137984cbfbc58aeabe48c0d3abf4d586923c2355e43c5908dd890ca29dc",
-    "global-metadata-decrypted.dat": "4370094ac9c8949eeb8a2b57c17424fe85d0e7a29ab2de0a71510b2458740a38",
-    "dumper/dump.cs": "b298f13c9838aadf42bb545a8a0846b1204af5b600f272336aa8ef24b4669297"
+    "libil2cpp.so": "9c457df6f721faeab918f0cd840b51580f62e60b7210ffbf37a054bf9bcec9de",
+    "global-metadata.dat": "c64935b35be54c5791446828a9b090aacd21bf7e9a89bfe00b03adcac53ff721",
+    "global-metadata-decrypted.dat": "40cc9493d1f9677812c46923ac07460a69fedf90bcb4623bb8ebd29af58a2c38",
+    "dumper/dump.cs": "7c9aabe93396dc5a7a9bcc256e73117e6c7d4fabc7072a0f49948b7b06fb4335"
   }
 }

@@ -1420,6 +1420,18 @@ message MemoryGift {
 message MemoryGiftList {
   repeated MemoryGift list = 1;
 }
+message MemoryRemake {
+  string id = 1;
+  int32 actionPointQuantity = 10;
+  int32 continueCount = 11;
+  int32 rerollCount = 12;
+  int32 maxSubMemoryCount = 13;
+  int64 startTime = 100;
+  int64 endTime = 101;
+}
+message MemoryRemakeList {
+  repeated MemoryRemake list = 1;
+}
 message MemoryTag {
   string id = 1;
   string defaultName = 2;
@@ -2456,6 +2468,14 @@ message ProduceGroup {
   penum.ResultGrade limitGrade = 12;
   int32 order = 99;
 }
+message ProduceGroupCharacter {
+  string produceGroupId = 1;
+  string characterId = 2;
+  bool isExcluded = 3;
+}
+message ProduceGroupCharacterList {
+  repeated ProduceGroupCharacter list = 1;
+}
 message ProduceGroupList {
   repeated ProduceGroup list = 1;
 }
@@ -3374,6 +3394,7 @@ message Setting {
   int32 idolCardPrimaStellaDearnessLevel = 152;
   int32 researchPointLimit = 156;
   bool profileReport2026Enable = 157;
+  bool memoryInheritSelectAfterCardEnable = 158;
   int32 iosAppStorageLimitMax = 159;
   int32 iosAppStorageLimitMin = 160;
   int32 androidAppStorageLimitMax = 161;

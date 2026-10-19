@@ -161,6 +161,8 @@ service Item {
 service LoginBonus {
   rpc Check(Empty) returns (LoginBonusCheckResponse);
   rpc Confirm(Empty) returns (LoginBonusConfirmResponse);
+  rpc ListSelect(Empty) returns (LoginBonusListSelectResponse);
+  rpc ReceiveSelect(LoginBonusReceiveSelectRequest) returns (LoginBonusReceiveSelectResponse);
 }
 service Master {
   rpc Get(Empty) returns (MasterGetResponse);
@@ -188,6 +190,11 @@ service Memory {
   rpc UpdateResearchFavorite(MemoryUpdateResearchFavoriteRequest) returns (MemoryUpdateResearchFavoriteResponse);
   rpc UpdateTagSetting(MemoryUpdateTagSettingRequest) returns (MemoryUpdateTagSettingResponse);
   rpc Reshooting(MemoryReshootingRequest) returns (MemoryReshootingResponse);
+}
+service MemoryRemake {
+  rpc Start(MemoryRemakeStartRequest) returns (MemoryRemakeStartResponse);
+  rpc End(MemoryRemakeEndRequest) returns (MemoryRemakeEndResponse);
+  rpc Result(MemoryRemakeResultRequest) returns (MemoryRemakeResultResponse);
 }
 service Mission {
   rpc ListEvent(Empty) returns (MissionListEventResponse);
@@ -296,7 +303,6 @@ service Produce {
   rpc ChangeCostume(ProduceChangeCostumeRequest) returns (ProduceChangeCostumeResponse);
   rpc ViewPictureBookLive(ProduceViewPictureBookLiveRequest) returns (ProduceViewPictureBookLiveResponse);
   rpc UnlockPictureBookLive(ProduceUnlockPictureBookLiveRequest) returns (ProduceUnlockPictureBookLiveResponse);
-  rpc ChangeProduceCardConversion(ProduceChangeProduceCardConversionRequest) returns (ProduceChangeProduceCardConversionResponse);
   rpc ChangeProduceCardConversions(ProduceChangeProduceCardConversionsRequest) returns (ProduceChangeProduceCardConversionsResponse);
   rpc ChangeProduceCardSkin(ProduceChangeProduceCardSkinRequest) returns (ProduceChangeProduceCardSkinResponse);
   rpc UnlockGrowthPanel(ProduceUnlockGrowthPanelRequest) returns (ProduceUnlockGrowthPanelResponse);
@@ -1768,6 +1774,7 @@ message HomeSetCharactersResponse {
 }
 message IdolCardChangeSkinRequest {
   string idolCardSkinId = 1;
+  string idolCardId = 2;
 }
 message IdolCardChangeSkinResponse {
   papicommon.Response commonResponse = 9999;
@@ -1860,6 +1867,7 @@ message LoginBonusCheckResponse {
   repeated LoginBonusCheckResponse.Info list = 1;
   LoginBonusCheckResponse.TotalInfo totalInfo = 2;
   repeated pcommon.StartupNotification startupNotifications = 3;
+  repeated LoginBonusSelect selectList = 4;
   papicommon.Response commonResponse = 9999;
   message Info {
     penum.LoginBonusType type = 1;
@@ -1884,6 +1892,30 @@ message LoginBonusCheckResponse {
 }
 message LoginBonusConfirmResponse {
   papicommon.Response commonResponse = 9999;
+}
+message LoginBonusListSelectResponse {
+  repeated LoginBonusSelect list = 1;
+  papicommon.Response commonResponse = 9999;
+}
+message LoginBonusReceiveSelectRequest {
+  string loginBonusSelectId = 1;
+  int32 number = 2;
+}
+message LoginBonusReceiveSelectResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message LoginBonusSelect {
+  string loginBonusSelectId = 1;
+  string name = 2;
+  string titleAssetId = 3;
+  string backgroundAssetId = 4;
+  int32 day = 5;
+  repeated LoginBonusSelect.Slot slots = 6;
+  bool received = 7;
+  message Slot {
+    int32 number = 1;
+    repeated pcommon.Reward rewards = 2;
+  }
 }
 message MasterGetResponse {
   MasterGetResponse.MasterTag masterTag = 1;
@@ -2042,10 +2074,31 @@ message MemoryInheritRequest {
   string baseUserMemoryId = 1;
   string materialUserMemoryId = 2;
   string changeProduceCardId = 3;
+  string afterProduceCardId = 4;
 }
 message MemoryInheritResponse {
   pcommon.Memory beforeMemory = 1;
   pcommon.Memory afterMemory = 2;
+  papicommon.Response commonResponse = 9999;
+}
+message MemoryRemakeEndRequest {
+  string clientUuid = 1;
+}
+message MemoryRemakeEndResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message MemoryRemakeResultRequest {
+  string clientUuid = 1;
+}
+message MemoryRemakeResultResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message MemoryRemakeStartRequest {
+  string clientUuid = 1;
+  string mainUserMemoryId = 2;
+  repeated string subUserMemoryIds = 3;
+}
+message MemoryRemakeStartResponse {
   papicommon.Response commonResponse = 9999;
 }
 message MemoryReshootingRequest {
@@ -2351,14 +2404,6 @@ message ProduceChangeGrowthPanelRequest {
   bool enable = 2;
 }
 message ProduceChangeGrowthPanelResponse {
-  papicommon.Response commonResponse = 9999;
-}
-message ProduceChangeProduceCardConversionRequest {
-  string beforeProduceCardId = 1;
-  string afterProduceCardId = 2;
-  bool enable = 3;
-}
-message ProduceChangeProduceCardConversionResponse {
   papicommon.Response commonResponse = 9999;
 }
 message ProduceChangeProduceCardConversionsRequest {
@@ -3102,6 +3147,8 @@ message ProduceTopResponse {
   repeated string produceHighScoreCharacterIds = 7;
   ProduceTopResponse.Research research = 9;
   ProduceTopResponse.Tour tour = 10;
+  int32 seminarExamClearCount = 11;
+  int32 seminarExamTotalCount = 12;
   repeated pcommon.StartupNotification startupNotifications = 50;
   papicommon.Response commonResponse = 9999;
   message ProduceHighScore {
@@ -3555,6 +3602,7 @@ message ResearchRankingResponse {
     int32 rank = 1;
     int32 auditionScore = 2;
     string produceGroupId = 3;
+    string idolCardId = 6;
     string idolCardSkinId = 4;
     string userMemoryId = 5;
     pcommon.SimpleProfile profile = 99;

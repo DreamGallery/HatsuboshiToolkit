@@ -118,6 +118,8 @@ message UserData {
   repeated ptransaction.UserMeishiIllustrationAsset userMeishiIllustrationAssetList = 100237367;
   repeated ptransaction.UserMemory userMemoryList = 163783316;
   ptransaction.UserMemoryInherit userMemoryInherit = 312197620;
+  ptransaction.UserMemoryRemake userMemoryRemake = 174625523;
+  repeated ptransaction.UserMemoryRemakeResult userMemoryRemakeResultList = 221978351;
   repeated ptransaction.UserMission userMissionList = 176225192;
   repeated ptransaction.UserMissionDailyReleaseGroup userMissionDailyReleaseGroupList = 104872908;
   repeated ptransaction.UserMissionGroup userMissionGroupList = 350034430;

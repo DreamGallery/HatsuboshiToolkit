@@ -412,6 +412,7 @@ enum EventType {
   EventType_Tour = 11;
   EventType_Research = 12;
   EventType_Trail = 13;
+  EventType_MemoryRemake = 14;
 }
 enum ExamActionType {
   ExamActionType_Unknown = 0;
@@ -670,6 +671,7 @@ enum FeatureMaintenanceType {
   FeatureMaintenanceType_Competition = 25;
   FeatureMaintenanceType_Trail = 26;
   FeatureMaintenanceType_GradeMission = 27;
+  FeatureMaintenanceType_MemoryRemake = 28;
 }
 enum FourPanelComicSeries {
   FourPanelComicSeries_Unknown = 0;
@@ -1075,6 +1077,12 @@ enum MeishiObjectType {
   MeishiObjectType_Movie = 16;
   MeishiObjectType_BaseAsset = 17;
   MeishiObjectType_Other = 999;
+}
+enum MemoryRemakePhaseType {
+  MemoryRemakePhaseType_Unknown = 0;
+  MemoryRemakePhaseType_Ingame = 1;
+  MemoryRemakePhaseType_IngameResult = 2;
+  MemoryRemakePhaseType_MemorySelect = 3;
 }
 enum MissionCategory {
   MissionCategory_Unknown = 0;
@@ -2739,6 +2747,7 @@ enum StoryEventType {
   StoryEventType_BoxGasha = 2;
   StoryEventType_MainStory = 3;
   StoryEventType_GuildMission = 4;
+  StoryEventType_CharacterIntroduction = 5;
 }
 enum StoryType {
   StoryType_Unknown = 0;
@@ -2752,6 +2761,7 @@ enum StoryType {
   StoryType_StoryEvent = 9;
   StoryType_GvgRaid = 10;
   StoryType_ProduceHighScore = 11;
+  StoryType_PrologueDearnessStory = 12;
   StoryType_Other = 99;
 }
 enum SupportCardLevelLimitRank {
@@ -2960,6 +2970,8 @@ enum TutorialType {
   TutorialType_CompetitionPreOpen = 214;
   TutorialType_Badge = 215;
   TutorialType_Trail = 216;
+  TutorialType_StoryEventCharacterIntroduction = 217;
+  TutorialType_CharacterIntroductionTips = 218;
 }
 enum ViewAreaType {
   ViewAreaType_Unknown = 0;

@@ -94,6 +94,7 @@ message UserDearnessStory {
   int64 readTime = 5;
   bool read = 6;
   bool itemUnlocked = 7;
+  bool itemRead = 9;
 }
 message UserGashaButton {
   string gashaId = 2;
@@ -195,6 +196,7 @@ message UserMemory {
   bool isHighScoreRush = 105;
   repeated UserMemory.UnitCharacter unitCharacters = 120;
   bool useCharacterFocusCamera = 121;
+  string liveIdolCardSkinId = 122;
   message MemoryAbility {
     string id = 1;
     int32 level = 2;
@@ -207,6 +209,17 @@ message UserMemory {
 }
 message UserMemoryInherit {
   string userMemoryId = 2;
+  repeated pcommon.ProduceCard examBattleProduceCards = 4;
+}
+message UserMemoryRemake {
+  string memoryRemakeId = 2;
+  penum.MemoryRemakePhaseType phaseType = 4;
+  string mainUserMemoryId = 10;
+  repeated string subUserMemoryIds = 11;
+  repeated pcommon.ProduceCard deckProduceCards = 21;
+}
+message UserMemoryRemakeResult {
+  int32 number = 2;
   repeated pcommon.ProduceCard examBattleProduceCards = 4;
 }
 message UserMission {
