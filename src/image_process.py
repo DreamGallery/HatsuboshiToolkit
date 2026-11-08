@@ -2,6 +2,7 @@ import json
 import UnityPy
 from PIL import Image
 from pathlib import Path
+from typing import Optional
 import src.rich_console as console
 
 
@@ -20,14 +21,20 @@ def unpack_to_image(asset_bytes: bytes, dest_path: str):
                     console.error(f"Failed to convert '{data.name}' to image.")
 
 
-def resize_image(inputs: str, output: str, size: tuple = (0, 0)):
+def resize_image(inputs: str, output: str, size: Optional[tuple] = None):
     try:
         original_image = Image.open(inputs)
     except FileNotFoundError:
         console.error(f"No such file or directory: '{inputs}'")
         return
-    resized_image = original_image.resize(size)
-    resized_image.save(output)
+    with original_image:
+        if size is None:
+            width, height = original_image.size
+            # Restore the display ratio without changing the texture's orientation.
+            if width == height:
+                return
+            size = (2560, 1440) if width > height else (1440, 2560)
+        original_image.resize(size, Image.Resampling.LANCZOS).save(output)
     console.succeed(f"Img '{inputs}' has been successfully scaled")
 
 
@@ -37,12 +44,10 @@ def image_scale(source: str, dest: str):
         update_database_dict = json.load(fp)
     for asset in update_database_dict["assetBundleList"]:
         name = asset["name"]
-        if (name.startswith("img_general_cidol-") and name.endswith("-full")) or name.startswith(
-            "img_adv_still_"
-        ):
-            size = (1440, 2560)
-        elif name.startswith("img_general_csprt-") and name.endswith("_full"):
-            size = (2560, 1440)
+        if ((name.startswith("img_general_cidol-") and name.endswith("-full"))
+                or (name.startswith("img_general_csprt-") and name.endswith("_full"))
+                or name.startswith("img_adv_still_")):
+            size = None
         elif name.startswith("img_general_comic_"):
             size = (1024, 768)
         else:
