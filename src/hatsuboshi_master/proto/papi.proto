@@ -231,6 +231,7 @@ service Photo {
   rpc UpdateName(PhotoUpdateNameRequest) returns (PhotoUpdateNameResponse);
   rpc UpdateProtection(PhotoUpdateProtectionRequest) returns (PhotoUpdateProtectionResponse);
   rpc Delete(PhotoDeleteRequest) returns (PhotoDeleteResponse);
+  rpc ReportMission(PhotoReportMissionRequest) returns (PhotoReportMissionResponse);
 }
 service PlayGames {
   rpc ApplyAchievement(PlayGamesApplyAchievementRequest) returns (PlayGamesApplyAchievementResponse);
@@ -351,6 +352,49 @@ service PvpRate {
   rpc UpdateUserPvpRateUnit(PvpRateUpdateUserPvpRateUnitRequest) returns (PvpRateUpdateUserPvpRateUnitResponse);
   rpc UpdateUserPvpRateDeck(PvpRateUpdateUserPvpRateDeckRequest) returns (PvpRateUpdateUserPvpRateDeckResponse);
 }
+service Refine {
+  rpc Top(Empty) returns (RefineTopResponse);
+  rpc UpdateMemoryDeck(RefineUpdateMemoryDeckRequest) returns (RefineUpdateMemoryDeckResponse);
+  rpc CheckProgress(RefineCheckProgressRequest) returns (RefineCheckProgressResponse);
+  rpc Start(RefineStartRequest) returns (RefineStartResponse);
+  rpc Restart(Empty) returns (RefineRestartResponse);
+  rpc Save(RefineSaveRequest) returns (RefineSaveResponse);
+  rpc ReadAdv(RefineReadAdvRequest) returns (RefineReadAdvResponse);
+  rpc SectionStepSelect(RefineSectionStepSelectRequest) returns (RefineSectionStepSelectResponse);
+  rpc StepAuditionStart(RefineStepAuditionStartRequest) returns (RefineStepAuditionStartResponse);
+  rpc StepAuditionExamEnd(RefineStepAuditionExamEndRequest) returns (RefineStepAuditionExamEndResponse);
+  rpc StepAuditionExamResult(RefineStepAuditionExamResultRequest) returns (RefineStepAuditionExamResultResponse);
+  rpc StepAuditionContinue(RefineStepAuditionContinueRequest) returns (RefineStepAuditionContinueResponse);
+  rpc StepAuditionEnd(RefineStepAuditionEndRequest) returns (RefineStepAuditionEndResponse);
+  rpc StepLessonStart(RefineStepLessonStartRequest) returns (RefineStepLessonStartResponse);
+  rpc StepLessonExamEnd(RefineStepLessonExamEndRequest) returns (RefineStepLessonExamEndResponse);
+  rpc StepLessonExamResult(RefineStepLessonExamResultRequest) returns (RefineStepLessonExamResultResponse);
+  rpc StepLessonContinue(RefineStepLessonContinueRequest) returns (RefineStepLessonContinueResponse);
+  rpc StepLessonEnd(RefineStepLessonEndRequest) returns (RefineStepLessonEndResponse);
+  rpc StepSetupStart(RefineStepSetupStartRequest) returns (RefineStepSetupStartResponse);
+  rpc StepSetupBuy(RefineStepSetupBuyRequest) returns (RefineStepSetupBuyResponse);
+  rpc StepSetupCustomize(RefineStepSetupCustomizeRequest) returns (RefineStepSetupCustomizeResponse);
+  rpc StepSetupReroll(RefineStepSetupRerollRequest) returns (RefineStepSetupRerollResponse);
+  rpc StepSetupEnd(RefineStepSetupEndRequest) returns (RefineStepSetupEndResponse);
+  rpc ActionPresentStart(RefineActionPresentStartRequest) returns (RefineActionPresentStartResponse);
+  rpc ActionPresentReceive(RefineActionPresentReceiveRequest) returns (RefineActionPresentReceiveResponse);
+  rpc ActionPresentReroll(RefineActionPresentRerollRequest) returns (RefineActionPresentRerollResponse);
+  rpc ActionPresentEnd(RefineActionPresentEndRequest) returns (RefineActionPresentEndResponse);
+  rpc ActionPresentGroupStart(RefineActionPresentGroupStartRequest) returns (RefineActionPresentGroupStartResponse);
+  rpc ActionPresentGroupReceive(RefineActionPresentGroupReceiveRequest) returns (RefineActionPresentGroupReceiveResponse);
+  rpc ActionPresentGroupReroll(RefineActionPresentGroupRerollRequest) returns (RefineActionPresentGroupRerollResponse);
+  rpc ActionPresentGroupEnd(RefineActionPresentGroupEndRequest) returns (RefineActionPresentGroupEndResponse);
+  rpc ActionSubProduceCardStart(RefineActionSubProduceCardStartRequest) returns (RefineActionSubProduceCardStartResponse);
+  rpc ActionSubProduceCardSwap(RefineActionSubProduceCardSwapRequest) returns (RefineActionSubProduceCardSwapResponse);
+  rpc ActionSubProduceCardEnd(RefineActionSubProduceCardEndRequest) returns (RefineActionSubProduceCardEndResponse);
+  rpc DiscardDrink(RefineDiscardDrinkRequest) returns (RefineDiscardDrinkResponse);
+  rpc ActivateEffect(RefineActivateEffectRequest) returns (RefineActivateEffectResponse);
+  rpc EffectRewardReroll(RefineEffectRewardRerollRequest) returns (RefineEffectRewardRerollResponse);
+  rpc Result(RefineResultRequest) returns (RefineResultResponse);
+  rpc Retire(Empty) returns (RefineRetireResponse);
+  rpc Ranking(RefineRankingRequest) returns (RefineRankingResponse);
+  rpc History(RefineHistoryRequest) returns (RefineHistoryResponse);
+}
 service Research {
   rpc Get(Empty) returns (ResearchGetResponse);
   rpc Ranking(ResearchRankingRequest) returns (ResearchRankingResponse);
@@ -392,6 +436,7 @@ service StoryEvent {
   rpc Top(StoryEventTopRequest) returns (StoryEventTopResponse);
   rpc ListGuildMission(StoryEventListGuildMissionRequest) returns (StoryEventListGuildMissionResponse);
   rpc ReceiveGuildMission(StoryEventReceiveGuildMissionRequest) returns (StoryEventReceiveGuildMissionResponse);
+  rpc UnlockUnitStory(StoryEventUnlockUnitStoryRequest) returns (StoryEventUnlockUnitStoryResponse);
 }
 service Story {
   rpc Read(StoryReadRequest) returns (StoryReadResponse);
@@ -1704,6 +1749,7 @@ message HomeEnterResponse {
   papicommon.PvpRateSeasonTop pvpRateSeasonTop = 5;
   repeated pcommon.Event events = 6;
   papicommon.CompetitionSeasonTop competitionSeasonTop = 7;
+  repeated papicommon.Refine refines = 8;
   int32 giftCount = 100;
   penum.ShopItemLabelType shopItemLabelType = 101;
   bool homeShopNoti = 102;
@@ -2340,6 +2386,16 @@ message PhotoDeleteRequest {
   repeated string userPhotoIds = 1;
 }
 message PhotoDeleteResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message PhotoReportMissionRequest {
+  repeated PhotoReportMissionRequest.CharacterCount characterCounts = 1;
+  message CharacterCount {
+    string characterId = 1;
+    int32 count = 2;
+  }
+}
+message PhotoReportMissionResponse {
   papicommon.Response commonResponse = 9999;
 }
 message PhotoUpdateNameRequest {
@@ -3559,6 +3615,404 @@ message PvpRateUpdateUserPvpRateUnitRequest {
 message PvpRateUpdateUserPvpRateUnitResponse {
   papicommon.Response commonResponse = 9999;
 }
+message RefineActionPresentEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionPresentEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentGroupEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionPresentGroupEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentGroupReceiveRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  int32 rewardGroupIndex = 3;
+  repeated int32 rewardIndexes = 4;
+}
+message RefineActionPresentGroupReceiveResponse {
+  repeated pcommon.ProduceRewardResult providedRewards = 1;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentGroupRerollRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  int32 rewardIndex = 3;
+}
+message RefineActionPresentGroupRerollResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentGroupStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionPresentGroupStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentReceiveRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  repeated int32 rewardIndexes = 3;
+}
+message RefineActionPresentReceiveResponse {
+  repeated pcommon.ProduceRewardResult providedRewards = 1;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentRerollRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  int32 rewardIndex = 3;
+}
+message RefineActionPresentRerollResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionPresentStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionPresentStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionSubProduceCardEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionSubProduceCardEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionSubProduceCardStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineActionSubProduceCardStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActionSubProduceCardSwapRequest {
+  string deviceRefineUuid = 1;
+  int32 produceCardIndex = 2;
+  int32 subProduceCardIndex = 3;
+}
+message RefineActionSubProduceCardSwapResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineActivateEffectRequest {
+  string deviceRefineUuid = 1;
+  repeated int32 pickIndexes = 2;
+  repeated int32 pickIndexes2 = 3;
+}
+message RefineActivateEffectResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineCheckProgressRequest {
+  string clientRefineUuid = 1;
+  string deviceRefineUuid = 2;
+}
+message RefineCheckProgressResponse {
+  string deviceRefineUuid = 1;
+  bool isCurrentRefine = 2;
+  bool isInterrupted = 3;
+  bool isOutOfTerm = 4;
+  bool needForceReset = 5;
+  string forceResetDescription = 6;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineDiscardDrinkRequest {
+  string deviceRefineUuid = 1;
+  repeated int32 drinkIndexes = 2;
+}
+message RefineDiscardDrinkResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineEffectRewardRerollRequest {
+  string deviceRefineUuid = 1;
+  int32 rewardIndex = 2;
+}
+message RefineEffectRewardRerollResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineHistoryRequest {
+  string refineId = 1;
+  string characterId = 2;
+  string publicUserId = 3;
+  bool isSelf = 4;
+}
+message RefineHistoryResponse {
+  pcommon.RefineHistory refineHistory = 1;
+  pcommon.SimpleProfile profile = 2;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineRankingRequest {
+  string refineId = 1;
+  string characterId = 2;
+}
+message RefineRankingResponse {
+  RefineRankingResponse.Rank selfRank = 1;
+  repeated RefineRankingResponse.Rank ranks = 2;
+  papicommon.Response commonResponse = 9999;
+  message Rank {
+    int32 rank = 1;
+    penum.RefineGradeType refineGradeType = 2;
+    int32 gradeNumber = 3;
+    int64 refineScore = 4;
+    string idolCardId = 10;
+    string idolCardSkinId = 11;
+    pcommon.SimpleProfile profile = 99;
+  }
+}
+message RefineReadAdvRequest {
+  string deviceRefineUuid = 1;
+  string assetId = 2;
+}
+message RefineReadAdvResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineRestartResponse {
+  string deviceRefineUuid = 1;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineResultRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineResultResponse {
+  penum.RefineGradeType refineGradeType = 1;
+  int32 gradeNumber = 2;
+  int64 refineScore = 3;
+  bool isNewRankingScore = 4;
+  repeated RefineResultResponse.Section sections = 10;
+  papicommon.Response commonResponse = 9999;
+  message Section {
+    int32 auditionScore = 1;
+    int32 refineScore = 2;
+  }
+}
+message RefineRetireResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineSaveRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineSaveResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineSectionStepSelectRequest {
+  string deviceRefineUuid = 1;
+  penum.RefineStepType stepType = 2;
+}
+message RefineSectionStepSelectResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStartRequest {
+  string clientRefineUuid = 1;
+  string refineId = 2;
+  string idolCardId = 3;
+  string mainUserMemoryId = 10;
+  penum.ProducePlanType memoryDeckPlanType = 11;
+  int32 memoryDeckNumber = 12;
+}
+message RefineStartResponse {
+  string deviceRefineUuid = 1;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepAuditionContinueRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepAuditionContinueResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepAuditionEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepAuditionEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepAuditionExamEndRequest {
+  string deviceRefineUuid = 1;
+  pcommon.ExamBattleResult result = 10;
+  repeated RefineStepAuditionExamEndRequest.ExamMissionResult examMissionResults = 11;
+  repeated pcommon.ExamContestTurn turnEndLogs = 20;
+  message ExamMissionResult {
+    int32 number = 1;
+    int32 resultTriggerCount = 2;
+  }
+}
+message RefineStepAuditionExamEndResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepAuditionExamResultRequest {
+  string deviceRefineUuid = 1;
+  repeated int32 examMissionNumbers = 2;
+}
+message RefineStepAuditionExamResultResponse {
+  repeated pcommon.ProduceRewardResult rewardResults = 1;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepAuditionStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepAuditionStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepLessonContinueRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepLessonContinueResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepLessonEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepLessonEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepLessonExamEndRequest {
+  string deviceRefineUuid = 1;
+  pcommon.RefineLessonResult result = 10;
+  repeated RefineStepLessonExamEndRequest.ExamMissionResult examMissionResults = 11;
+  repeated pcommon.ExamContestTurn turnEndLogs = 20;
+  message ExamMissionResult {
+    int32 number = 1;
+    int32 resultTriggerCount = 2;
+  }
+}
+message RefineStepLessonExamEndResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepLessonExamResultRequest {
+  string deviceRefineUuid = 1;
+  repeated int32 examMissionNumbers = 2;
+}
+message RefineStepLessonExamResultResponse {
+  RefineStepLessonExamResultResponse.LessonGrowthParameter lessonGrowthParameter = 1;
+  repeated pcommon.ProduceRewardResult lessonRewardResults = 2;
+  repeated pcommon.ProduceRewardResult turnRewardResults = 3;
+  repeated pcommon.ProduceRewardResult examMissionRewardResults = 4;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+  message LessonGrowthParameter {
+    int32 beforeVocalPermil = 1;
+    int32 afterVocalPermil = 2;
+    int32 beforeDancePermil = 3;
+    int32 afterDancePermil = 4;
+    int32 beforeVisualPermil = 5;
+    int32 afterVisualPermil = 6;
+  }
+}
+message RefineStepLessonStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepLessonStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepSetupBuyRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  int32 deckProduceCardIndex = 3;
+  int32 buyCount = 10;
+}
+message RefineStepSetupBuyResponse {
+  repeated pcommon.ProduceRewardResult rewardResults = 1;
+  int32 beforeProducePoint = 2;
+  int32 afterProducePoint = 3;
+  int32 beforeMaxStamina = 4;
+  int32 afterMaxStamina = 5;
+  int32 beforeStamina = 6;
+  int32 afterStamina = 7;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepSetupCustomizeRequest {
+  string deviceRefineUuid = 1;
+  int32 number = 2;
+  int32 deckProduceCardIndex = 3;
+  string produceCardCustomizeId = 4;
+}
+message RefineStepSetupCustomizeResponse {
+  int32 beforeProducePoint = 1;
+  int32 afterProducePoint = 2;
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepSetupEndRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepSetupEndResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepSetupRerollRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepSetupRerollResponse {
+  papicommon.Response commonResponse = 9999;
+}
+message RefineStepSetupStartRequest {
+  string deviceRefineUuid = 1;
+}
+message RefineStepSetupStartResponse {
+  repeated pcommon.ProduceEffectResult effectResults = 99;
+  papicommon.Response commonResponse = 9999;
+}
+message RefineTopResponse {
+  repeated RefineTopResponse.Refine refines = 1;
+  papicommon.Response commonResponse = 9999;
+  message Section {
+    int32 sectionNumber = 1;
+    string refineStepAuditionId = 2;
+  }
+  message Character {
+    string characterId = 1;
+    penum.RefineGradeType refineGradeType = 2;
+    int32 gradeNumber = 3;
+    int64 refineScore = 4;
+  }
+  message Refine {
+    string refineId = 1;
+    string name = 2;
+    penum.ProducePlanType planType = 5;
+    penum.ProduceExamEffectType examEffectType = 6;
+    string refineSettingId = 11;
+    string produceExamBattleScoreConfigId = 12;
+    repeated string excludeProduceCardIds = 13;
+    repeated string refineProduceCardIds = 14;
+    repeated string refineProduceItemIds = 15;
+    repeated string refineProduceDrinkIds = 16;
+    repeated string refineParkIds = 17;
+    repeated RefineTopResponse.Section sections = 20;
+    repeated RefineTopResponse.Character characters = 30;
+    string missionGroupId = 80;
+    string unlockConditionSetId = 91;
+    int64 startTime = 100;
+    int64 endTime = 101;
+    int64 closeTime = 102;
+    int32 order = 200;
+  }
+}
+message RefineUpdateMemoryDeckRequest {
+  penum.ProducePlanType planType = 1;
+  int32 number = 2;
+  string name = 3;
+  repeated string subUserMemoryIds = 10;
+  repeated pcommon.ProduceCard variantProduceCards = 20;
+}
+message RefineUpdateMemoryDeckResponse {
+  papicommon.Response commonResponse = 9999;
+}
 message ResearchChangeMemoryProduceCardPickupRequest {
   bool disable = 1;
 }
@@ -3990,6 +4444,12 @@ message StoryEventTopResponse {
     string text = 9;
     repeated string modelAssetIds = 10;
   }
+}
+message StoryEventUnlockUnitStoryRequest {
+  string storyId = 1;
+}
+message StoryEventUnlockUnitStoryResponse {
+  papicommon.Response commonResponse = 9999;
 }
 message StoryReadDearnessStoryRequest {
   string characterId = 1;

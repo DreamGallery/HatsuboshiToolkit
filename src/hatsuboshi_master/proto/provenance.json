@@ -1,14 +1,14 @@
 {
-  "game_version": "3.5.0",
+  "game_version": "3.6.0",
   "campus_commit": "a7f5b047b47594761c9623117f4f8aa159ba38c6",
-  "dump_sha256": "7c9aabe93396dc5a7a9bcc256e73117e6c7d4fabc7072a0f49948b7b06fb4335",
+  "dump_sha256": "b8c83f7a7f94e884cee9fbb4dbab72db3f760444c2a2bb2a7570e1c1abd4a317",
   "platform": "Android arm64",
   "source": "Google Play APK extracted from authorized emulator",
   "il2cpp_dumper": "v6.7.46",
   "input_sha256": {
-    "libil2cpp.so": "9c457df6f721faeab918f0cd840b51580f62e60b7210ffbf37a054bf9bcec9de",
-    "global-metadata.dat": "c64935b35be54c5791446828a9b090aacd21bf7e9a89bfe00b03adcac53ff721",
-    "global-metadata-decrypted.dat": "40cc9493d1f9677812c46923ac07460a69fedf90bcb4623bb8ebd29af58a2c38",
-    "dumper/dump.cs": "7c9aabe93396dc5a7a9bcc256e73117e6c7d4fabc7072a0f49948b7b06fb4335"
+    "libil2cpp.so": "9d22ab48e416a2dffeee1bfb8fc9f541644b13ce7f28b703aba358b830c47cdc",
+    "global-metadata.dat": "5900e5483709d737e320aa9859c4f6c3939489d50941750c40363592bc0aa5f6",
+    "global-metadata-decrypted.dat": "77f93360324361e5afd86a8c2f3d3c4efb6479bd7d9c8e71eab7ad632de4766a",
+    "dumper/dump.cs": "b8c83f7a7f94e884cee9fbb4dbab72db3f760444c2a2bb2a7570e1c1abd4a317"
   }
 }

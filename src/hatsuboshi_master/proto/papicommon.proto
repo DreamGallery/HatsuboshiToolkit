@@ -69,6 +69,13 @@ message RankReward {
   int64 borderScore = 3;
   repeated pcommon.Reward rewards = 4;
 }
+message Refine {
+  string refineId = 1;
+  string refineName = 2;
+  int64 startTime = 100;
+  int64 endTime = 101;
+  int64 closeTime = 102;
+}
 message Response {
   UserData updatedData = 1;
   UserData deletedData = 2;
@@ -170,6 +177,16 @@ message UserData {
   ptransaction.UserPvpRate userPvpRate = 226209413;
   repeated ptransaction.UserPvpRateDeck userPvpRateDeckList = 353841253;
   ptransaction.UserPvpRateUnit userPvpRateUnit = 286467793;
+  repeated ptransaction.UserRefineAdv userRefineAdvList = 449914535;
+  repeated ptransaction.UserRefineMemoryDeck userRefineMemoryDeckList = 45361438;
+  ptransaction.UserRefineProgress userRefineProgress = 280209899;
+  repeated ptransaction.UserRefineProgressEffect userRefineProgressEffectList = 257038026;
+  repeated ptransaction.UserRefineProgressExamMission userRefineProgressExamMissionList = 437698057;
+  repeated ptransaction.UserRefineProgressPresent userRefineProgressPresentList = 478943366;
+  repeated ptransaction.UserRefineProgressProduceCard userRefineProgressProduceCardList = 382348858;
+  repeated ptransaction.UserRefineProgressSectionStep userRefineProgressSectionStepList = 304624980;
+  repeated ptransaction.UserRefineProgressSetup userRefineProgressSetupList = 508059045;
+  repeated ptransaction.UserRefineProgressSubProduceCard userRefineProgressSubProduceCardList = 466025084;
   repeated ptransaction.UserShopItem userShopItemList = 455613547;
   repeated ptransaction.UserStory userStoryList = 376356693;
   repeated ptransaction.UserSupportCard userSupportCardList = 2234692;

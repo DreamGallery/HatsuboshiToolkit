@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hatsuboshi-masterdb"
-version = "0.2.1"
+version = "0.2.2"
 description = "Atomic game API masterdb snapshots for HatsuboshiToolkit"
 requires-python = ">=3.10"
 license = {text = "AGPL-3.0-only"}

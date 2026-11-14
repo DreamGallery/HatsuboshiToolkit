@@ -308,6 +308,7 @@ message ExamContestSituation {
   string imageVersion = 2;
   string masterVersion = 3;
   string masterHash = 4;
+  bool isStaticTurnParameterType = 9;
   int32 vocal = 10;
   int32 dance = 11;
   int32 visual = 12;
@@ -320,11 +321,13 @@ message ExamContestStage {
   repeated ProduceItem stageProduceItems = 3;
   string produceExamBattleNpcGroupId = 4;
   int32 forceEndScore = 5;
+  repeated string excludeProduceCardIds = 6;
   repeated ExamContestSection selfSections = 10;
   repeated ExamContestSection rivalSections = 11;
   repeated string researchExternalProduceCardIds = 100;
   repeated ExamStatusEnchant examStatusEnchants = 110;
   repeated ExamStatusEnchant examPermanentStatusEnchants = 111;
+  repeated ExamMission examMissions = 120;
 }
 message ExamContestStageResult {
   repeated ExamContestSectionResult selfSections = 1;
@@ -346,6 +349,15 @@ message ExamContestTurn {
   repeated ProduceCard startPlayHandProduceCards = 60;
   repeated ProduceCard startPlayHoldProduceCards = 61;
   repeated ExamStatusEffect startPlayStatuses = 62;
+}
+message ExamMission {
+  string produceExamTriggerId = 1;
+  int32 thresholdTriggerCount = 2;
+  string iconAssetId = 10;
+  string backgroundColor = 11;
+  penum.ProduceResourceType resourceType = 20;
+  string resourceId = 21;
+  int32 quantity = 22;
 }
 message ExamStatusEffect {
   penum.ExamStatusEffectType statusEffectType = 1;
@@ -667,6 +679,7 @@ message ProduceCard {
   string id = 1;
   int32 upgradeCount = 2;
   repeated ProduceCardCustomize customizes = 3;
+  repeated ProduceCardCustomize freeCustomizes = 4;
   string produceCardSkinId = 100;
 }
 message ProduceCardConversion {
@@ -676,6 +689,9 @@ message ProduceCardConversion {
 message ProduceCardCustomize {
   string id = 1;
   int32 customizeCount = 2;
+}
+message ProduceCards {
+  repeated ProduceCard produceCards = 1;
 }
 message ProduceConsumptionResult {
   penum.ProduceResourceType resourceType = 1;
@@ -705,6 +721,9 @@ message ProduceDescriptionSegment {
   string originProduceExamTriggerId = 201;
   string originProduceExamEffectId = 202;
   string originProduceCardStatusEnchantId = 203;
+  penum.ProduceCardMoveEffectTriggerType originProduceCardMoveEffectTriggerType = 204;
+  string originMoveProduceExamTriggerId = 205;
+  string originMoveProduceExamEffectId = 206;
   bool isCost = 210;
   bool isOnlyOutGame = 1000;
   bool changeColor = 1001;
@@ -893,6 +912,54 @@ message PvpRateSetupUnitStageFormation {
     string mainUserMemoryId = 1;
     string subUserMemoryId = 2;
   }
+}
+message RefineAction {
+  penum.RefineActionType actionType = 1;
+  string actionId = 2;
+}
+message RefineHistory {
+  string refineId = 1;
+  string refineName = 2;
+  int32 halfSectionNumber = 3;
+  penum.RefineGradeType refineGradeType = 10;
+  int32 gradeNumber = 11;
+  int64 refineScore = 12;
+  int64 clearedTime = 13;
+  int32 producerLevel = 15;
+  string idolCardId = 20;
+  string idolCardSkinId = 21;
+  penum.IdolCardLevelLimitRank levelLimitRank = 22;
+  penum.IdolCardPotentialRank potentialRank = 23;
+  bool isPrimaStella = 24;
+  repeated ProduceCard produceCards = 40;
+  repeated string produceItemIds = 41;
+  repeated string refineParkIds = 42;
+  int32 vocalPermil = 50;
+  int32 dancePermil = 51;
+  int32 visualPermil = 52;
+  int32 maxStamina = 60;
+  repeated RefineHistory.Section sections = 100;
+  message Section {
+    int32 sectionNumber = 1;
+    int32 auditionRank = 2;
+    int32 auditionScore = 3;
+    int32 refineScore = 4;
+    ExamContestSituation examContestSituation = 99;
+  }
+}
+message RefineLesson {
+  penum.RefineStepType stepType = 1;
+  int32 limitTurn = 2;
+  int32 successThreshold = 3;
+  int32 perfectThreshold = 4;
+  int64 seed = 5;
+  string produceExamGimmickEffectGroupId = 10;
+}
+message RefineLessonResult {
+  int32 score = 1;
+  int32 remainingTurn = 2;
+  int32 stamina = 3;
+  repeated string produceDrinkIds = 10;
 }
 message ResearchExchangeItemRewardResult {
   string researchId = 1;
