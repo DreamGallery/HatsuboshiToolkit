@@ -1,0 +1,108 @@
+name: Update masterdb schema
+
+on:
+  workflow_dispatch:
+    inputs:
+      client_url:
+        description: Direct HTTPS download URL for the complete APK or XAPK
+        required: true
+        type: string
+      client_sha256:
+        description: Expected package SHA-256 (optional)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-masterdb-schema
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      base: ${{ steps.source.outputs.base }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: API
+          persist-credentials: false
+      - id: source
+        run: echo "base=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.25.x'
+          cache: false
+      - name: Install schema tooling
+        run: python -m pip install 'grpcio-tools>=1.70,<2' 'protobuf>=6.33.6,<8' 'requests>=2.32,<3'
+      - name: Generate and validate schema
+        env:
+          CLIENT_URL: ${{ inputs.client_url }}
+          CLIENT_SHA256: ${{ inputs.client_sha256 }}
+          DOTNET_ROLL_FORWARD: Major
+        run: |
+          python scripts/update_master_schema.py \
+            --url "$CLIENT_URL" \
+            --sha256 "$CLIENT_SHA256" \
+            --work-dir .agent-local/schema-update \
+            --output .agent-local/schema-update/candidate
+      - uses: actions/upload-artifact@v7
+        with:
+          name: masterdb-schema
+          path: .agent-local/schema-update/candidate/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    needs: generate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.generate.outputs.base }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: masterdb-schema
+          path: .agent-local/schema-update/candidate
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Recheck and commit API schema
+        run: |
+          python -m pip install 'protobuf>=6.33.6,<8'
+          python scripts/validate_master_schema.py \
+            --candidate .agent-local/schema-update/candidate/schema.pb \
+            --baseline src/hatsuboshi_master/proto/schema.pb
+          python - <<'PY'
+          import shutil
+          from pathlib import Path
+          source = Path('.agent-local/schema-update/candidate')
+          names = {'penum.proto', 'pcommon.proto', 'pmaster.proto', 'ptransaction.proto',
+                   'papicommon.proto', 'papi.proto', 'schema.pb', 'provenance.json'}
+          if {p.name for p in source.iterdir()} != names:
+              raise SystemExit('Unexpected schema artifact contents')
+          for name in sorted(names):
+              if not (source / name).is_file() or (source / name).is_symlink():
+                  raise SystemExit('Invalid schema artifact')
+              shutil.copy2(source / name, Path('src/hatsuboshi_master/proto') / name)
+          PY
+          if git diff --quiet -- src/hatsuboshi_master/proto; then
+            echo 'Schema is unchanged.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- src/hatsuboshi_master/proto
+          git commit -m 'Update masterdb schema'
+          git push origin HEAD:API
+          echo 'Updated the API branch. The updater validates this schema against masterdb before publishing.' >> "$GITHUB_STEP_SUMMARY"
