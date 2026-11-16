@@ -64,14 +64,11 @@ The `API` branch downloads game resources from Octo and exports game masterdb ta
 
 ## Updating masterdb schemas
 
-Generate `dump.cs` from your own game installation with Il2CppDumper, then run:
+Open **Actions → Update masterdb schema → Run workflow** and enter a direct HTTPS URL for a complete Android APK or XAPK. SHA-256 verification is optional; the game version is detected automatically.
 
-```sh
-python -m pip install grpcio-tools
-python scripts/export_master_proto.py --dump /private/dump.cs --game-version 3.4.1
-```
+The workflow runs Il2CppDumper and the Go analyser directly on the runner, validates the result and commits schema files to `API`. Docker and game-account credentials are not required.
 
-Schema export requires Git and Docker to run the pinned campus Go analyser. Generated schemas are compiled before replacing the existing files. Check compatibility before using new schemas.
+Use a download link without private credentials. Missing split APKs, unsupported metadata protection or incompatible definitions stop the workflow without replacing the existing schema. The R2 updater activates a schema only after validating the current masterdb.
 
 ## Special Thanks
 

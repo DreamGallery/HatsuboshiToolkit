@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Export a descriptor set from a current, locally extracted Il2CppDumper dump.cs.
-Requires Docker, git and the optional grpcio-tools package. No game account needed.
+Requires Go 1.25+, git and the optional grpcio-tools package. No game account needed.
 """
 import argparse
 import hashlib
@@ -32,7 +32,7 @@ def main():
         shutil.copy2(dump,campus/'cache/dump.cs')
         command=campus/'cmd/schema-export';command.mkdir(parents=True)
         (command/'main.go').write_text('package main\nimport "vertesan/campus/analyser"\nfunc main() { analyser.Analyze() }\n')
-        run('docker','run','--rm','-v',f'{campus}:/work','-w','/work','golang:1.25','go','run','./cmd/schema-export')
+        run('go','run','./cmd/schema-export',cwd=campus)
         generated=campus/'cache/GeneratedProto'
         run(sys.executable,'-m','grpc_tools.protoc',f'-I{generated}','--include_imports',
             f'--descriptor_set_out={generated}/schema.pb',*[generated/name for name in FILES])
